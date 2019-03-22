@@ -452,7 +452,7 @@ export default class Mechanician extends Component {
               <Accordion
                 dataArray={this.state.dataArray}
                 animation={true}
-                //expanded={true}
+                expanded={3}
 
                 //headerStyle={{ backgroundColor: "#b7daf8" }}
                 //contentStyle={{ backgroundColor: "#ddecf8" }}
