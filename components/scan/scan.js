@@ -65,9 +65,8 @@ export default class scan extends Component {
 
   async store_qrcode(){
     console.warn("------------Go To Post page from Scan gage-------------");
-    //this.props.navigation.navigate('Mechanician_');
-    //this.props.navigation.state.params.refresh();
-    //this.props.navigation.goBack() 
+    this.props.navigation.state.params.refresh();
+    this.props.navigation.goBack();
   }
 
   render() {
@@ -91,7 +90,7 @@ export default class scan extends Component {
   }
 
   componentWillUnmount () {
-    alert('scan componentWillUnmount');
+    //alert('scan componentWillUnmount');
     this.props.navigation.state.params.refresh();
   }
 

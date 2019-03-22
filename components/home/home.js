@@ -25,7 +25,18 @@ export default class HelloWorldApp extends Component {
 
   async mechanician(name){
     await AsyncStorage.setItem('stateFromHome', name);
-    this.props.navigation.navigate('Mechanician');
+
+    if(name=="Count Accessories"){
+      this.props.navigation.navigate('Count');
+    }
+    if(name=="Send and Pick Bike"){
+      this.props.navigation.navigate('Delivery');
+    }
+    if(name=="Mechanician"){
+      this.props.navigation.navigate('Mechanician');
+    }
+
+
     console.warn("------------Go To Mechanician Page from Login Page-------------");  
   }
 

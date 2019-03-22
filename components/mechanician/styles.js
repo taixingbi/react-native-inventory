@@ -67,7 +67,7 @@ export default StyleSheet.create({
   },
 
   ScanButton: {
-    backgroundColor: '#69bfb4',
+    //backgroundColor: '#69bfb4',
     borderColor: 'white',
     borderWidth: 15,
     borderRadius: 2,
@@ -80,6 +80,17 @@ export default StyleSheet.create({
     //marginTop: 100,
   },
 
+  imgCamera: {
+    margin: 300,
+    marginTop: 200,
+    //backgroundColor: '#69bfb4',
+    padding: 10,
+    margin: 15,
+    width: 250,
+    height: 250,
+    borderRadius: 12,   
+    alignSelf: 'center', 
+  },
 
   input_comment: {
     margin: 10,
@@ -139,16 +150,7 @@ submitButtonText:{
   color: 'white',
 },
 
-imgCamera: {
-  margin: 300,
-  backgroundColor: '#69bfb4',
-  padding: 10,
-  margin: 15,
-  width: 200,
-  height: 200,
-  borderRadius: 12,   
-  alignSelf: 'center', 
-},
+
 
 footerText:{
   color: 'grey',

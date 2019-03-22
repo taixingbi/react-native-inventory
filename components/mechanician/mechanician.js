@@ -34,7 +34,7 @@ export default class Mechanician extends Component {
 
   _refresh= async ()=>{
     console.log('refresh')
-    alert('refresh')
+    //alert('refresh')
     qrcode = await AsyncStorage.getItem('qrcode');
     this.setState({
       qrcode: qrcode,
@@ -56,7 +56,7 @@ export default class Mechanician extends Component {
       //table
       tableData: null,
       dataArray: [
-        { title: "Info", content: "" },
+        { title: "Start", content: "" },
         { title: "Scan", content: "" },
         { title: "Post", content: "" },
         { title: "Table", content: "" },
@@ -107,7 +107,9 @@ export default class Mechanician extends Component {
   } 
 
   async post(){
-
+    this.setState({
+      isLoading: true,
+    });
     data= {
         email: this.state.user.email,
         qrcode: this.state.qrcode,
@@ -120,13 +122,18 @@ export default class Mechanician extends Component {
     }
     
     rest.post(this.state.headers, data) 
-    alert("test")
 
     //re-get table 
 
     data= await this.get();
     console.warn(data);
     this.data2table(data);
+
+    setTimeout(() => {
+      this.setState({
+        isLoading: false,
+      });
+    }, 1000);
   }
 
   confirm_button(){
@@ -135,17 +142,17 @@ export default class Mechanician extends Component {
         return;
     }
 
-    this.post();
+    //this.post();
 
-    // Alert.alert(
-    //     'Are You Sure?',
-    //     this.state.qrcode,
-    //     [
-    //        { text: 'OK', onPress: () => this.post() },
-    //       //{ text: 'OK', onPress: () => {alert("test")} },
+    Alert.alert(
+        'Are You Sure?',
+        this.state.qrcode,
+        [
+           {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+           {text: 'OK', onPress: () => this.post() },
 
-    //     ]
-    // );
+        ]
+    );
 
   }
 
@@ -170,7 +177,7 @@ export default class Mechanician extends Component {
   }
 
   _renderHeader(item, expanded) {
-    if(item.title== "Info"){
+    if(item.title== "Start"){
       return (
         <View style={{
           flexDirection: "row",
@@ -253,47 +260,50 @@ export default class Mechanician extends Component {
 
   _renderContent(item) {
 
-    action= modules.action
 
-    if(item.title== "Info"){
-     
+    
+
+    action= modules.action
+    action_= modules.action_
+
+    if(item.title== "Start"){
+      //refresh
+      this.state.qrcode= "";
+
       const mechanician= ()=>{ 
-        if(1){
+        if(this.state.stateFromHome=="Mechanician"){
            return true; 
         }
       }
 
       const delivery= ()=>{ 
-        if(1){
+        if(this.state.stateFromHome=="Send and Pick Bike"){
            return true; 
         }
       }
 
       const count= ()=>{ 
-        if(1){
+        if(this.state.stateFromHome=="Count Accessories"){
            return true; 
         }
       }
         
       return (
-        
         <Content style={styles.content1}>
-
-         
           {
             <Picker 
               selectedValue = {this.state.action} 
               onValueChange = { (value) => this.setState({ action: value }) }>
               <Picker.Item label = "Please select action" value = "0" /> 
 
-              { mechanician() ? <Picker.Item label = "Lets fix it" value = {action['start_fix']}  />  : null }
-              { mechanician() ? <Picker.Item label = "Fixing done" value = {action['finish_fix']} />  : null }
+              { mechanician() ? <Picker.Item label = { action_[action['start_fix']]} value = {action['start_fix']}  />  : null }
+              { mechanician() ? <Picker.Item label = { action_[action['finish_fix']]} value = {action['finish_fix']} />  : null }
 
-              { delivery() ?<Picker.Item label = "Pick bike" value = {action['pick']} /> : null }
-              { delivery() ?<Picker.Item label = "Send bike" value = {action['send']} /> : null }
+              { delivery() ?<Picker.Item label = { action_[action['pick']]} value = {action['pick']} /> : null }
+              { delivery() ?<Picker.Item label = { action_[action['send']]} value = {action['send']} /> : null }
 
-              { count() ?<Picker.Item label = "Lets increase count" value = {action['add_count']} /> : null }
-              { count() ?<Picker.Item label = "Lets decrease count" value = {action['reduce_count']} /> : null }
+              { count() ?<Picker.Item label = { action_[action['add_count']]} value = {action['add_count']} /> : null }
+              { count() ?<Picker.Item label = { action_[action['reduce_count']]} value = {action['reduce_count']} /> : null }
             </Picker> 
           }
         </Content>
@@ -324,62 +334,77 @@ export default class Mechanician extends Component {
       );
     }
 
+
     if(item.title== "Post"){
       console.log(this.state.qrcode);
       //let qrcode = await AsyncStorage.getItem('qrcode');
+
+      const count= ()=>{
+        if(this.state.stateFromHome=="Count Accessories" ){
+          return(
+            <View>
+            { <Picker 
+              selectedValue = {this.state.category} 
+              onValueChange = { (value) => this.setState({ category: value }) }>
+                  <Picker.Item label = "Select stuff" value = "0" />
+
+                  <Picker.Item label = "Bike" value = {modules.category["Bike"]} />
+                  <Picker.Item label = "Hemlets" value = {modules.category["Hemlets"]} />
+                  <Picker.Item label = "Locks" value = {modules.category["Locks"]} />
+
+            </Picker>  }
+
+              <TextInput 
+                value={this.state.color}
+                onChangeText = {  (value) => this.setState({ color: value }) }
+
+                style = {styles.input_color}
+                placeholder = "color"
+                autoCapitalize = "none"
+              />
+
+              <TextInput 
+                value={this.state.size}
+                onChangeText = {  (value) => this.setState({ size: value }) }
+
+                style = {styles.input_size}
+                placeholder = "size"
+                autoCapitalize = "none"
+              />
+              
+              <TextInput 
+                value={this.state.qty}
+                onChangeText = {  (value) => this.setState({ qty: value }) }
+
+                style = {styles.input_qty}
+                placeholder = "qty"
+                autoCapitalize = "none"
+              />
+            </View> 
+          )
+        }
+      }
+
+      const comment= ()=>{
+        if(this.state.stateFromHome=="Mechanician" || this.state.stateFromHome=="Send and Pick Bike" ){
+          return(
+            <View>
+              <TextInput 
+                value={this.state.comment}
+                onChangeText = {  (value) => this.setState({ comment: value }) }
+
+                style = {styles.input_comment}
+                placeholder = "comment"
+                autoCapitalize = "none"
+              />
+            </View> 
+          )
+        }
+      }
       return (
         <Content style={styles.content1}>
-
-          { <Picker 
-            selectedValue = {this.state.category} 
-            onValueChange = { (value) => this.setState({ category: value }) }>
-                <Picker.Item label = "Select stuff" value = "0" />
-
-                <Picker.Item label = "Bike" value = {modules.category["Bike"]} />
-                <Picker.Item label = "Hemlets" value = {modules.category["Hemlets"]} />
-                <Picker.Item label = "Locks" value = {modules.category["Locks"]} />
-
-          </Picker>  }
-
-          <TextInput 
-                      value={this.state.color}
-                      onChangeText = {  (value) => this.setState({ color: value }) }
-
-                      style = {styles.input_color}
-                      underlineColorAndroid = "transparent"
-                      placeholder = "color"
-                      autoCapitalize = "none"
-                  />
-
-          <TextInput 
-                      value={this.state.size}
-                      onChangeText = {  (value) => this.setState({ size: value }) }
-
-                      style = {styles.input_size}
-                      underlineColorAndroid = "transparent"
-                      placeholder = "size"
-                      autoCapitalize = "none"
-                  />
-
-          <TextInput 
-                      value={this.state.qty}
-                      onChangeText = {  (value) => this.setState({ qty: value }) }
-
-                      style = {styles.input_qty}
-                      underlineColorAndroid = "transparent"
-                      placeholder = "qty"
-                      autoCapitalize = "none"
-                  />
-
-         <TextInput 
-                      value={this.state.comment}
-                      onChangeText = {  (value) => this.setState({ comment: value }) }
-
-                      style = {styles.input_comment}
-                      underlineColorAndroid = "transparent"
-                      placeholder = "comment"
-                      autoCapitalize = "none"
-                  />
+          {count()}
+          {comment()}
 
           <TouchableOpacity
           style = {styles.submitButton}
@@ -427,7 +452,7 @@ export default class Mechanician extends Component {
               <Accordion
                 dataArray={this.state.dataArray}
                 animation={true}
-                expanded={true}
+                //expanded={true}
 
                 //headerStyle={{ backgroundColor: "#b7daf8" }}
                 //contentStyle={{ backgroundColor: "#ddecf8" }}
@@ -453,7 +478,7 @@ export default class Mechanician extends Component {
                 }}>
                 
                   <Text style = {styles.footerText}> Action: </Text>
-                  <Text style = {styles.footerInput}> { modules.action_(this.state.action) }     </Text>
+                  <Text style = {styles.footerInput}> { modules.action_[this.state.action]}     </Text>
                   <Text style = {styles.footerText}> Qrcode: </Text>
                   <Text style = {styles.footerInput}> {this.state.qrcode}</Text>
                   <Text style = {styles.footerText}> Category: </Text>

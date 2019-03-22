@@ -16,10 +16,19 @@ export const action=({
     'reduce_count':'6',
 })
 
-export const action_ = (x)=>{
-    rev= swap(action);
-    return rev[x];
-}
+// export const action_ = (x)=>{
+//     rev= swap(action);
+//     return rev[x];
+// }
+
+export const action_=({
+    '1': 'Send bike',
+    '2': 'Lets fix it',
+    '3': 'Fixing done',
+    '4': 'Pick bike',
+    '5': 'Lets increase count',
+    '6': 'Lets decrease count',
+})
 
 export const category=({
     'Bike': '27',

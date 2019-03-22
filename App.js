@@ -21,15 +21,18 @@ const RootStack = createStackNavigator(
 
     //Mechanician
     Mechanician: mechanician,
-    Mechanician_: mechanician,
+    Delivery: mechanician,
+    Count: mechanician,
+
     Scan: scan,
 
     Test: test,
   },
   {
-    initialRouteName: 'Mechanician', //Login
+    initialRouteName: 'Login', //Login
   }
 );
+
 
 const AppContainer = createAppContainer(RootStack);
 
