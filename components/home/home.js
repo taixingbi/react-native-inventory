@@ -4,7 +4,8 @@ import {
   View, 
   ActivityIndicator, 
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage,
 } from 'react-native'
 
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -22,7 +23,8 @@ export default class HelloWorldApp extends Component {
     title: 'Home',
   };
 
-  mechanician(){
+  async mechanician(name){
+    await AsyncStorage.setItem('stateFromHome', name);
     this.props.navigation.navigate('Mechanician');
     console.warn("------------Go To Mechanician Page from Login Page-------------");  
   }
@@ -60,28 +62,32 @@ export default class HelloWorldApp extends Component {
           />
         </Row>
 
-        <Row style={{ backgroundColor: 'red', }} size={1}>
+        <Row style={{ backgroundColor: 'white', }} size={1}>
+
           <Row >
-            <TouchableHighlight onPress={() => this.mechanician()}>
+            <TouchableHighlight onPress={() => this.mechanician("Count Accessories")}>
               <Image  style = {styles.img_s}
                       source={require('../../imgs/accessories.jpg')}
               />
             </TouchableHighlight>        
           </Row> 
+
           <Row >
-            <TouchableHighlight onPress={() => this.mechanician()}>
+            <TouchableHighlight onPress={() => this.mechanician("Send and Pick Bike")}>
               <Image  style = {styles.img_s}
                       source={require('../../imgs/bike.jpg')}
               />
             </TouchableHighlight>        
           </Row>   
+
           <Row >
-            <TouchableHighlight onPress={() => this.mechanician()}>
+            <TouchableHighlight onPress={() => this.mechanician("Mechanician")}>
               <Image  style = {styles.img_s}
                       source={require('../../imgs/mechanician.jpg')}
               />
             </TouchableHighlight>        
           </Row>   
+
         </Row>
 
         <Row  size={1.5}>

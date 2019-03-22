@@ -11,7 +11,7 @@ export default StyleSheet.create({
     flexGrow: 1,
 
     //width:800,
-    height: 650,
+    height: 630,
     //justifyContent: 'space-between', 
   },
 
@@ -150,8 +150,13 @@ imgCamera: {
   alignSelf: 'center', 
 },
 
+footerText:{
+  color: 'grey',
+},
 
-
+footerInput:{
+  color: 'red',
+}
 
 
 })

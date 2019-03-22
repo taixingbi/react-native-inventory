@@ -29,7 +29,7 @@ import { Table,
 
 export default class Mechanician extends Component {
   static navigationOptions = {
-    title: 'Mechanician',
+    //title: "",
   };
 
   _refresh= async ()=>{
@@ -49,6 +49,8 @@ export default class Mechanician extends Component {
 
     this.state = {
       isLoading: true,
+      //
+      stateFromHome: null,
       //login user info
       user: null,
       //table
@@ -64,7 +66,6 @@ export default class Mechanician extends Component {
       action: '',
 
     }
-
     this._renderContent = this._renderContent.bind(this);
   }
 
@@ -77,8 +78,11 @@ export default class Mechanician extends Component {
     //Authorization
     const access_token = await AsyncStorage.getItem('access_token');
     const headers= {"Authorization" : "Bearer " + access_token };
+    //home
+    const stateFromHome = await AsyncStorage.getItem('stateFromHome');
 
     this.setState({
+      stateFromHome: stateFromHome,
       headers: headers,
       user: user,
     });
@@ -130,15 +134,19 @@ export default class Mechanician extends Component {
         alert("Please select action");
         return;
     }
-    Alert.alert(
-        'Are You Sure?',
-        this.state.qrcode,
-        [
-           { text: 'OK', onPress: () => this.post() },
-          //{ text: 'OK', onPress: () => {alert("test")} },
 
-        ]
-    );
+    this.post();
+
+    // Alert.alert(
+    //     'Are You Sure?',
+    //     this.state.qrcode,
+    //     [
+    //        { text: 'OK', onPress: () => this.post() },
+    //       //{ text: 'OK', onPress: () => {alert("test")} },
+
+    //     ]
+    // );
+
   }
 
   data2table(data){
@@ -248,34 +256,46 @@ export default class Mechanician extends Component {
     action= modules.action
 
     if(item.title== "Info"){
-      picker= () => {  
-        //if (this.state.user.level=='4') {//4: mechanicial
-            return  <Picker 
-                      selectedValue = {this.state.action} 
-                      onValueChange = { (value) => this.setState({ action: value }) }>
-                      <Picker.Item label = "Please select action" value = "0" /> 
-                      <Picker.Item label = "Lets fix bike" value = {action['start_fix']} /> 
-                      <Picker.Item label = "Bike-fixing done" value = {action['finish_fix']} />
+     
+      const mechanician= ()=>{ 
+        if(1){
+           return true; 
+        }
+      }
 
-                      <Picker.Item label = "Pick bike" value = {action['pick']} />
-                      <Picker.Item label = "Send bike" value = {action['send']} />
+      const delivery= ()=>{ 
+        if(1){
+           return true; 
+        }
+      }
 
-                      <Picker.Item label = "Lets increase count" value = {action['add_count']} />
-                      <Picker.Item label = "Lets decrease count" value = {action['reduce_count']} />
-
-                    </Picker>;   
+      const count= ()=>{ 
+        if(1){
+           return true; 
+        }
       }
         
       return (
+        
         <Content style={styles.content1}>
 
-          <Text   style={styles.user}>
-            {this.state.user.first_name} {this.state.user.last_name} {'    '} {this.state.user.email}
+         
+          {
+            <Picker 
+              selectedValue = {this.state.action} 
+              onValueChange = { (value) => this.setState({ action: value }) }>
+              <Picker.Item label = "Please select action" value = "0" /> 
 
-          </Text>  
+              { mechanician() ? <Picker.Item label = "Lets fix it" value = {action['start_fix']}  />  : null }
+              { mechanician() ? <Picker.Item label = "Fixing done" value = {action['finish_fix']} />  : null }
 
-          {picker()}
+              { delivery() ?<Picker.Item label = "Pick bike" value = {action['pick']} /> : null }
+              { delivery() ?<Picker.Item label = "Send bike" value = {action['send']} /> : null }
 
+              { count() ?<Picker.Item label = "Lets increase count" value = {action['add_count']} /> : null }
+              { count() ?<Picker.Item label = "Lets decrease count" value = {action['reduce_count']} /> : null }
+            </Picker> 
+          }
         </Content>
       );
     }
@@ -308,15 +328,17 @@ export default class Mechanician extends Component {
       console.log(this.state.qrcode);
       //let qrcode = await AsyncStorage.getItem('qrcode');
       return (
-
         <Content style={styles.content1}>
 
           { <Picker 
             selectedValue = {this.state.category} 
             onValueChange = { (value) => this.setState({ category: value }) }>
-                <Picker.Item label = "Bike" value = "27" />
-                <Picker.Item label = "Hemlets" value = "2" />
-                <Picker.Item label = "Locks" value = "10" />
+                <Picker.Item label = "Select stuff" value = "0" />
+
+                <Picker.Item label = "Bike" value = {modules.category["Bike"]} />
+                <Picker.Item label = "Hemlets" value = {modules.category["Hemlets"]} />
+                <Picker.Item label = "Locks" value = {modules.category["Locks"]} />
+
           </Picker>  }
 
           <TextInput 
@@ -394,7 +416,11 @@ export default class Mechanician extends Component {
 
     return (
         <Container>
-
+           
+          <Text   style={styles.user}>
+            {this.state.user.first_name} {this.state.user.last_name} {'    '} {this.state.user.email}
+            {'                                                                                                       '}{this.state.stateFromHome} 
+          </Text> 
           <Content padder>
             <View style={styles.container}>
 
@@ -413,19 +439,34 @@ export default class Mechanician extends Component {
             </View>
 
 
-          </Content>
+        </Content>
 
           <Footer>
-            <View style={{
-              //flexDirection: "row",
-              padding: 20,
-              justifyContent: "space-between",
-              alignItems: "left" ,
-              //backgroundColor: "#8dc63f" 
-              }}>
-              <Text style = {styles.state}> Action: { modules.action_(this.state.action) }</Text>
-              <Text style = {styles.qrcode}> Qrcode: {this.state.qrcode}</Text>
+            <View >
+
+              <View style={{
+                flexDirection: "row",
+                padding: 15,
+                justifyContent: "space-between",
+                alignItems: "left" ,
+                //backgroundColor: "#8dc63f" 
+                }}>
+                
+                  <Text style = {styles.footerText}> Action: </Text>
+                  <Text style = {styles.footerInput}> { modules.action_(this.state.action) }     </Text>
+                  <Text style = {styles.footerText}> Qrcode: </Text>
+                  <Text style = {styles.footerInput}> {this.state.qrcode}</Text>
+                  <Text style = {styles.footerText}> Category: </Text>
+                  <Text style = {styles.footerInput}> { modules.category_(this.state.category) }     </Text>
+
+              </View>
+
+              {/* <View >
+                <Text >  </Text>
+              </View> */}
+
             </View>
+
           </Footer>
 
         </Container>

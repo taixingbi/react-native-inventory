@@ -1,5 +1,4 @@
 
-
 function swap(json){
     var rev = {};
     for(var key in json){
@@ -22,3 +21,13 @@ export const action_ = (x)=>{
     return rev[x];
 }
 
+export const category=({
+    'Bike': '27',
+    'Hemlets': '2',
+    'Locks': '10',
+})
+
+export const category_ = (x)=>{
+    rev= swap(category);
+    return rev[x];
+}
