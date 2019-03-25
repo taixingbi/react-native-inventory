@@ -177,92 +177,40 @@ export default class Mechanician extends Component {
   }
 
   _renderHeader(item, expanded) {
+    
     if(item.title== "Start"){
-      return (
-        <View style={{
-          flexDirection: "row",
-          padding: 20,
-          justifyContent: "space-between",
-          alignItems: "center" ,
-          backgroundColor: "#b1d67f" }}>
-
-          <Text style={{ 
-            fontWeight: "600",
-            textAlign: 'center', // <-- the magic
-            }}>
-            {" "}{item.title}
-          </Text>
-
-          {expanded
-            ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-            : <Icon style={{ fontSize: 18 }} name="add-circle" />}
-
-        </View>
-      );
+      var styles_accordion_header= styles.accordion_header_start_view;
     }
 
     if(item.title== "Scan"){
-      return (
-        <View style={{
-          flexDirection: "row",
-          padding: 20,
-          justifyContent: "space-between",
-          alignItems: "center" ,
-          backgroundColor: "#8dc63f" }}>
-          <Text style={{ fontWeight: "600" }}>
-            {" "}{item.title}
-          </Text>
-          {expanded
-            ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-            : <Icon style={{ fontSize: 18 }} name="add-circle" />}
-        </View>
-      );
+      var styles_accordion_header= styles.accordion_header_scan_view;
     }
+
     if(item.title== "Post"){
-      return (
-        <View style={{
-          flexDirection: "row",
-          padding: 20,
-          justifyContent: "space-between",
-          alignItems: "center" ,
-          backgroundColor: "#598527" }}>
+      var styles_accordion_header= styles.accordion_header_post_view;
+    }
 
-        <Text style={{ fontWeight: "600" }}>
+    if(item.title== "Table"){
+      var styles_accordion_header= styles.accordion_header_table_view;
+    }
+
+    return (
+      <View style={ styles_accordion_header }>
+
+        <Text style={styles.accordion_header_text}> 
           {" "}{item.title}
-        </Text>
-
+        </Text> 
+        
         {expanded
           ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-          : <Icon style={{ fontSize: 18 }} name="add-circle" />}
-
-        </View>
-      );
-    }
-    if(item.title== "Table"){
-      return (
-        <View style={{
-          flexDirection: "row",
-          padding: 20,
-          justifyContent: "space-between",
-          alignItems: "center" ,
-          backgroundColor: "#464646" }}>
-        <Text style={{ fontWeight: "600" }}>
-            {" "}{item.title}
-          </Text>
-          {expanded
-            ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-            : <Icon style={{ fontSize: 18 }} name="add-circle" />}
-        </View>
-      );
-    }
+          : <Icon style={{ fontSize: 18 }} name="add-circle" />
+        }
+      </View>
+    );
 
   }
 
   _renderContent(item) {
-
-
-    
-
     action= modules.action
     action_= modules.action_
 
@@ -289,7 +237,7 @@ export default class Mechanician extends Component {
       }
         
       return (
-        <Content style={styles.content1}>
+        <View style={styles.content_start}> 
           {
             <Picker 
               selectedValue = {this.state.action} 
@@ -306,34 +254,22 @@ export default class Mechanician extends Component {
               { count() ?<Picker.Item label = { action_[action['reduce_count']]} value = {action['reduce_count']} /> : null }
             </Picker> 
           }
-        </Content>
+        </View>
       );
     }
 
     if(item.title== "Scan"){
       return (
-      <Content style={styles.content1}>
-
-        <TouchableHighlight onPress={() => this.ButtonQRReader()}>
-          <Image
-            style={styles.imgCamera}
-            source={require('../../imgs/scan.jpg')}
-          />
-        </TouchableHighlight>
-
-      </Content>   
+        <View style={styles.content_scan}> 
+          <TouchableHighlight onPress={() => this.ButtonQRReader()}>
+            <Image
+              style={styles.imgCamera}
+              source={require('../../imgs/scan.jpg')}
+            />
+          </TouchableHighlight>
+        </View>
       ) 
     }
-
-    if(item.title== "Table"){
-      return (
-        <Table borderStyle={styles.table}>
-          <Row data={['User', 'Qrcode', 'State', 'category', 'color' , 'Size', 'quantity', 'Comment', 'Location', 'Created time']} style={styles.head} textStyle={styles.text}/>
-          <Rows data={this.state.tableData} textStyle={styles.text}/>
-        </Table>    
-      );
-    }
-
 
     if(item.title== "Post"){
       console.log(this.state.qrcode);
@@ -342,7 +278,7 @@ export default class Mechanician extends Component {
       const count= ()=>{
         if(this.state.stateFromHome=="Count Accessories" ){
           return(
-            <View>
+            <View style={styles.content}> 
             { <Picker 
               selectedValue = {this.state.category} 
               onValueChange = { (value) => this.setState({ category: value }) }>
@@ -351,6 +287,8 @@ export default class Mechanician extends Component {
                   <Picker.Item label = "Bike" value = {modules.category["Bike"]} />
                   <Picker.Item label = "Hemlets" value = {modules.category["Hemlets"]} />
                   <Picker.Item label = "Locks" value = {modules.category["Locks"]} />
+                  <Picker.Item label = "Water" value = {modules.category["Water"]} />
+                  <Picker.Item label = "Baskets" value = {modules.category["Baskets"]} />
 
             </Picker>  }
 
@@ -388,8 +326,8 @@ export default class Mechanician extends Component {
       const comment= ()=>{
         if(this.state.stateFromHome=="Mechanician" || this.state.stateFromHome=="Send and Pick Bike" ){
           return(
-            <View>
-              <TextInput 
+            <View style={styles.content_post}> 
+            <TextInput 
                 value={this.state.comment}
                 onChangeText = {  (value) => this.setState({ comment: value }) }
 
@@ -402,7 +340,7 @@ export default class Mechanician extends Component {
         }
       }
       return (
-        <Content style={styles.content1}>
+        <View>
           {count()}
           {comment()}
 
@@ -413,10 +351,21 @@ export default class Mechanician extends Component {
           }>
           <Text style = {styles.submitButtonText}> Submit </Text>
           </TouchableOpacity>
-
-        </Content>
+        </View>
       );
     }
+
+    if(item.title== "Table"){
+      return (
+
+        <Table borderStyle={styles.table}>
+          <Row data={['User', 'Qrcode', 'State', 'category', 'color' , 'Size', 'quantity', 'Comment', 'Location', 'Created time']} style={styles.head} textStyle={styles.text}/>
+          <Rows data={this.state.tableData} textStyle={styles.text}/>
+        </Table>    
+
+      );
+    }
+
   }
 
   ButtonQRReader = ( ) => {
@@ -452,7 +401,7 @@ export default class Mechanician extends Component {
               <Accordion
                 dataArray={this.state.dataArray}
                 animation={true}
-                expanded={3}
+                expanded={0}
 
                 //headerStyle={{ backgroundColor: "#b7daf8" }}
                 //contentStyle={{ backgroundColor: "#ddecf8" }}
@@ -460,12 +409,8 @@ export default class Mechanician extends Component {
                 renderHeader={this._renderHeader}
                 renderContent={this._renderContent}
               />
-
             </View>
-
-
         </Content>
-
           <Footer>
             <View >
 

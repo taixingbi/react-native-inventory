@@ -1,12 +1,19 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-
-export default class HelloWorldApp extends Component {
+import React, { Component } from "react";
+import { Container, Header, Content, Accordion } from "native-base";
+const dataArray = [
+  { title: "First Element", content: "Lorem ipsum dolor sit amet" },
+  { title: "Second Element", content: "Lorem ipsum dolor sit amet" },
+  { title: "Third Element", content: "Lorem ipsum dolor sit amet" }
+];
+export default class AccordionExample extends Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Hello, world!</Text>
-      </View>
+      <Container>
+        <Header />
+        <Content padder>
+          <Accordion dataArray={dataArray} expanded={1}/>
+        </Content>
+      </Container>
     );
   }
 }

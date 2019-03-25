@@ -31,9 +31,11 @@ export const action_=({
 })
 
 export const category=({
-    'Bike': '27',
     'Hemlets': '2',
     'Locks': '10',
+    'Baskets': '26',
+    'Bike': '27',
+    'Water': '28',
 })
 
 export const category_ = (x)=>{

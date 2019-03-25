@@ -7,24 +7,71 @@ export default StyleSheet.create({
     //justifyContent: 'space-between', 
   },
 
-  content1: { 
-    flexGrow: 1,
+  content_start: { 
+    //flexGrow: 1,
 
-    //width:800,
     height: 630,
-    //justifyContent: 'space-between', 
   },
 
-  container2: { 
-    flex: 1,
-    //width:700,
-    height: 200,
-    //justifyContent: 'space-around',
+
+  content_scan: { 
+    //flexGrow: 1,
+
+    height: 630,
   },
 
-  container3: { 
-    height: 100
+  content_post: { 
+    //flexGrow: 1,
+
+    height: 300,
   },
+
+
+  content_table: { 
+    //flexGrow: 1,
+
+    height: 630,
+  },
+ 
+
+//accordion
+  accordion_header_start_view:{
+      flexDirection: "row",
+      padding: 20,
+      justifyContent: "space-between",
+      alignItems: "center" ,
+      backgroundColor: "#b1d67f"
+  },
+
+  accordion_header_scan_view:{
+    flexDirection: "row",
+    padding: 20,
+    justifyContent: "space-between",
+    alignItems: "center" ,
+    backgroundColor: "#8dc63f"
+  },
+
+  accordion_header_post_view:{
+    flexDirection: "row",
+    padding: 20,
+    justifyContent: "space-between",
+    alignItems: "center" ,
+    backgroundColor: "#598527"
+    },
+
+  accordion_header_table_view:{
+    flexDirection: "row",
+    padding: 20,
+    justifyContent: "space-between",
+    alignItems: "center" ,
+    backgroundColor: "#464646"
+  },
+
+  accordion_header_text:{
+    fontWeight: "600",
+    textAlign: 'center', // <-- the magic
+  },
+
 
   head: { 
     height: 40, 

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "rentbike",
-    "slug": "AwesomeProject",
+    "slug": "inventory",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
