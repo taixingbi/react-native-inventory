@@ -17,7 +17,8 @@ export const  post=  async (headers, data) => {
           alert("Post Successfully");
           console.log(response.data);
         }).catch(function (e) {
-          console.log(e);
+          alert(url + e);
+          console.warn(e);
         });
       
     console.warn("post table mechanician successfully");
@@ -37,6 +38,7 @@ export const get= async (headers, email) => {//post
       data: data,          
       headers: headers
     }).catch(function (e) {
+      alert(url + e);
       console.log(e);
     });
     

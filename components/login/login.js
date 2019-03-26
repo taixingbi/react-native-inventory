@@ -14,8 +14,6 @@ import {
   ActivityIndicator, 
 } from 'react-native'
 
-import axios from 'axios';
-
 export default class LogIn extends React.Component {
   constructor(props) {
     super(props)
