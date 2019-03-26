@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 export const  post_login=  async (email, password) => {
-    let url= 'https://nvp.bikerent.nyc/api/inventory_logi';
+    let url= 'https://nvp.bikerent.nyc/api/inventory_login';
     let data= {
       email: email,
       password: password
